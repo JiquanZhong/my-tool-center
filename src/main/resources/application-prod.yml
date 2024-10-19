@@ -1,10 +1,68 @@
 server:
   port: 8080
+  servlet:
+    context-path: /api
 spring:
   application:
     name: tool-center
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/tool_center
     username: postgres
     password: mysecretpassword
+    hikari:
+      minimum-idle: 5 # 最小空闲连接数
+      maximum-pool-size: 200 # 最大连接池大小
+      idle-timeout: 30000 # 空闲连接的最大存活时间（毫秒）
+      pool-name: SpringBootJPAHikariCP # 连接池名称
+      max-lifetime: 1800000 # 连接的最大存活时间（毫秒）
+      connection-timeout: 30000 # 获取连接的最大等待时间（毫秒）
+      leak-detection-threshold: 2000 # 泄漏检测的阈值（毫秒）
+#security:
+#  basic:
+#    enabled: true
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.github.jiquanzhong.toolcenter.controller
+## knife4j配置
+knife4j:
+  enable: true
+  setting:
+    language: zh_CN
+  documents:
+    -
+      group: 1.0
+      name: "工具众筹平台"
+      locations: "classpath:markdown/*"
+  basic:
+    enable: true
+    username: abc
+    password: 123
+kaptcha:
+  expired: 60
+  border:
+    enable: true
+    color: "105,179,90"
+  textproducer:
+    font:
+      color: "black"
+      size: 30
+      names: "宋体,楷体,微软雅黑"
+    char:
+      length: 4
+    image:
+      width: 150
+      height: 50
